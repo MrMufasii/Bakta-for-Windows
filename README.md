@@ -6,6 +6,21 @@
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D6?logo=windows&logoColor=white)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582182.svg)](https://doi.org/10.5281/zenodo.20582182)
 
+**Bundled &amp; ported tool stack** (all native Windows):<br>
+![Bakta](https://img.shields.io/badge/Bakta-1.12.0-1b2a4a)
+![AMRFinderPlus](https://img.shields.io/badge/AMRFinderPlus-4.2.7-2f6db5)
+![Infernal](https://img.shields.io/badge/Infernal-1.1.5-2f6db5)
+![HMMER](https://img.shields.io/badge/HMMER-3.4-2f6db5)
+![tRNAscan-SE](https://img.shields.io/badge/tRNAscan--SE-2.0.12-2f6db5)
+![Aragorn](https://img.shields.io/badge/Aragorn-1.2.41-2f6db5)
+![PilerCR](https://img.shields.io/badge/PilerCR-1.06-2f6db5)
+![DIAMOND](https://img.shields.io/badge/DIAMOND-2.2.1-1aa6a6)
+![BLAST+](https://img.shields.io/badge/BLAST%2B-2.17.0-1aa6a6)
+![Pyrodigal](https://img.shields.io/badge/Pyrodigal-3.7.1-1aa6a6)
+![pyHMMER](https://img.shields.io/badge/pyHMMER-0.12.1-1aa6a6)
+![pyCirclize](https://img.shields.io/badge/pyCirclize-1.10.1-1aa6a6)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+
 **A native-Windows build of [Bakta](https://github.com/oschwengers/bakta) — rapid,
 standardized annotation of bacterial genomes, MAGs and plasmids — with its *entire*
 tool stack ported to run natively. No WSL, no Docker, no Cygwin, no Linux VM.** A
