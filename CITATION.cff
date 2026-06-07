@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: >-
+  If you use this Windows port, please cite the upstream Bakta paper (and the
+  individual tools you rely on) AND this repository. See the "Citing" section of
+  the README for the full list.
+title: "Bakta for Windows (native port)"
+abstract: >-
+  A native-Windows build of Bakta (rapid, standardized bacterial genome
+  annotation) together with native-Windows ports of its full tool stack
+  (AMRFinderPlus, Infernal, HMMER, tRNAscan-SE, Aragorn, PilerCR) plus bundled
+  DIAMOND and BLAST+. Runs without WSL, Docker, Cygwin or a Linux VM.
+authors:
+  - family-names: Sheridan
+    given-names: Alex
+    alias: MrMufasii
+type: software
+license: GPL-3.0
+version: "1.12.0"
+repository-code: "https://github.com/MrMufasii/Bakta-for-Windows"
+url: "https://github.com/MrMufasii/Bakta-for-Windows"
+keywords:
+  - bioinformatics
+  - genome annotation
+  - bacterial genomics
+  - Windows
+  - Bakta
+references:
+  - type: article
+    title: "Bakta: rapid and standardized annotation of bacterial genomes via alignment-free sequence identification"
+    authors:
+      - family-names: Schwengers
+        given-names: Oliver
+      - family-names: Jelonek
+        given-names: Lukas
+      - family-names: Dieckmann
+        given-names: Marius A.
+      - family-names: Beyvers
+        given-names: Sebastian
+      - family-names: Blom
+        given-names: Jochen
+      - family-names: Goesmann
+        given-names: Alexander
+    journal: "Microbial Genomics"
+    year: 2021
+    volume: "7"
+    issue: "11"
+    doi: "10.1099/mgen.0.000685"
