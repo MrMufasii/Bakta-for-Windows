@@ -1,5 +1,7 @@
 # Bakta for Windows
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582182.svg)](https://doi.org/10.5281/zenodo.20582182)
+
 **A native-Windows build of [Bakta](https://github.com/oschwengers/bakta) — rapid,
 standardized annotation of bacterial genomes, MAGs and plasmids — with its *entire*
 tool stack ported to run natively. No WSL, no Docker, no Cygwin, no Linux VM.** A
@@ -207,13 +209,14 @@ The **database is not in the repo** (~1.5 GB, downloaded separately — see *Ins
   7(11):000685. doi:[10.1099/mgen.0.000685](https://doi.org/10.1099/mgen.0.000685)
 - **the individual tools you rely on** — AMRFinderPlus, Infernal, HMMER, tRNAscan-SE,
   Aragorn, PilerCR, DIAMOND, BLAST+, Pyrodigal, PyHMMER, pyCirclize (see *Credits* below).
-- **this Windows port** — Sheridan, A. *Bakta for Windows (native port).*
-  https://github.com/MrMufasii/Bakta-for-Windows — DOI: _pending (Zenodo)_.
-  A machine-readable [`CITATION.cff`](CITATION.cff) is included (GitHub's “Cite this
-  repository” button).
+- **this Windows port** — Sheridan, A. *Bakta for Windows (native port).* Zenodo.
+  doi:[10.5281/zenodo.20582182](https://doi.org/10.5281/zenodo.20582182) —
+  https://github.com/MrMufasii/Bakta-for-Windows. A machine-readable
+  [`CITATION.cff`](CITATION.cff) is included (GitHub's “Cite this repository” button).
 
 > Example methods sentence: *“Genome annotation was performed with Bakta v1.12.0
-> (Schwengers et al., 2021) via the native-Windows port (Sheridan; DOI…).”*
+> (Schwengers et al., 2021) via the native-Windows port (Sheridan, 2026;
+> doi:10.5281/zenodo.20582182).”*
 
 ---
 

@@ -16,6 +16,7 @@ authors:
 type: software
 license: GPL-3.0
 version: "1.12.0"
+doi: "10.5281/zenodo.20582182"
 repository-code: "https://github.com/MrMufasii/Bakta-for-Windows"
 url: "https://github.com/MrMufasii/Bakta-for-Windows"
 keywords:
