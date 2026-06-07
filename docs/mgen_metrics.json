@@ -1,0 +1,51 @@
+{
+  "_comment": "Real native-Windows Bakta 1.12.0 (light DB v6.0) annotation of Mycoplasmoides (Mycoplasma) genitalium G37 (ENA L43967.2). Every feature tool ran; no --skip flags. Numbers taken from out_full/mgen.txt + mgen.log of the validation run on Windows 11.",
+  "organism": "Mycoplasma genitalium G37",
+  "accession": "ENA L43967.2",
+  "genome": {
+    "length_bp": 580076,
+    "sequences": 1,
+    "gc_pct": 31.7,
+    "n50": 580076,
+    "coding_density_pct": 78.9
+  },
+  "features": {
+    "CDS": 991,
+    "hypothetical CDS": 891,
+    "tRNA": 36,
+    "tmRNA": 1,
+    "rRNA": 3,
+    "ncRNA": 2,
+    "ncRNA region": 0,
+    "CRISPR array": 0,
+    "oriC": 1,
+    "pseudogene": 0
+  },
+  "cds_annotation": {
+    "total_cds": 991,
+    "with_pfam_domain": 316,
+    "pfam_domains_detected": 443,
+    "hypothetical": 891
+  },
+  "rnas_detail": [
+    {"type": "16S rRNA (rrs)", "len": 1518, "score": 1443.6},
+    {"type": "23S rRNA (rrl)", "len": 2916, "score": 2681.4},
+    {"type": "5S rRNA (rrf)",  "len": 109,  "score": 72.8}
+  ],
+  "runtime_seconds_wall": 63,
+  "threads": 4,
+  "platform": "Windows 11 (x64), CPython 3.13",
+  "tools": {
+    "Bakta": "1.12.0",
+    "tRNAscan-SE": "2.0.12",
+    "Aragorn": "1.2.41",
+    "Infernal cmscan/cmsearch": "1.1.5",
+    "PilerCR": "1.06",
+    "Pyrodigal": "3.7.1",
+    "AMRFinderPlus": "4.2.7",
+    "Pyhmmer": "0.12.1",
+    "Diamond": "2.2.1",
+    "Blast+": "2.17.0",
+    "pyCirclize": "1.10.1"
+  }
+}

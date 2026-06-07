@@ -1,0 +1,20 @@
+# Git LFS for the bundled binaries / runtime (large, binary).
+*.exe   filter=lfs diff=lfs merge=lfs -text
+*.dll   filter=lfs diff=lfs merge=lfs -text
+*.pyd   filter=lfs diff=lfs merge=lfs -text
+*.a     filter=lfs diff=lfs merge=lfs -text
+*.lib   filter=lfs diff=lfs merge=lfs -text
+*.zip   filter=lfs diff=lfs merge=lfs -text
+perl/** filter=lfs diff=lfs merge=lfs -text
+bin/trnascan-lib/models/** filter=lfs diff=lfs merge=lfs -text
+
+# docs/img charts stay as normal git blobs so they always render in the README.
+docs/img/*.png -filter -diff -merge text=auto
+
+# The tRNAscan-SE Perl script + conf must stay LF (perl shebang / parsing).
+bin/tRNAscan-SE      text eol=lf
+bin/tRNAscan-SE.conf text eol=lf
+*.pm                 text eol=lf
+*.ps1                text eol=crlf
+*.bat                text eol=crlf
+*.vbs                text eol=crlf
