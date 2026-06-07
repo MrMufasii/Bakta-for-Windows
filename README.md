@@ -1,5 +1,9 @@
 # Bakta for Windows
 
+[![Release](https://img.shields.io/github/v/release/MrMufasii/Bakta-for-Windows?label=release&color=2f6db5)](https://github.com/MrMufasii/Bakta-for-Windows/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/MrMufasii/Bakta-for-Windows/total?label=downloads&color=16a34a)](https://github.com/MrMufasii/Bakta-for-Windows/releases)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D6?logo=windows&logoColor=white)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20582182.svg)](https://doi.org/10.5281/zenodo.20582182)
 
 **A native-Windows build of [Bakta](https://github.com/oschwengers/bakta) — rapid,
