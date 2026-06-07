@@ -60,10 +60,12 @@ packages, a **Strawberry Perl** runtime (for tRNAscan-SE), and the GUI — nothi
 to be pre-installed. (You can also rebuild it yourself — see [`dist/`](dist).) Per-user install by default (no administrator required); it adds a
 Start-Menu app, an optional desktop shortcut, and (optionally) puts `bakta` on PATH.
 
-> **The database is separate** (it's ~1.5 GB). After installing, open the app and click
-> **“Download light DB…”**, or run `bakta_db download --type light --output DBDIR`.
-> Then point the app / `--db` at the resulting `db-light` folder. (Why separate: it's
-> too large to bundle and is versioned independently of the code.)
+> **The database is separate** (too large to bundle, and versioned independently of the
+> code). Both the **light** DB (~1.5 GB download / ~3 GB on disk) and the **full** DB
+> (~38 GB / ~75 GB, maximal sensitivity) are supported — the ported tools are identical
+> for both. After installing, open the app and click **“Download light DB…”** (it offers
+> light *or* full), or run `bakta_db download --type light --output DBDIR` (or
+> `--type full`). Then point the app / `--db` at the resulting `db-light` (or `db`) folder.
 
 ---
 

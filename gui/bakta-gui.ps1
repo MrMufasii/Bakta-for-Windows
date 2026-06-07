@@ -160,15 +160,20 @@ $btnPlot.Add_Click({
 })
 
 $btnGetDb.Add_Click({
+    # Choose light vs full. Yes = light (~3 GB), No = full (~75 GB), Cancel = abort.
+    $pick = [System.Windows.Forms.MessageBox]::Show(
+        "Which Bakta database?`n`n  YES   = Light  (~1.5 GB download, ~3 GB on disk) - recommended`n  NO    = Full   (~38 GB download, ~75 GB on disk) - maximal sensitivity`n  CANCEL = don't download",
+        'Bakta database', 'YesNoCancel', 'Question')
+    if ($pick -eq 'Cancel') { return }
+    $type = if ($pick -eq 'Yes') { 'light' } else { 'full' }
+    $folder = if ($type -eq 'light') { 'db-light' } else { 'db' }
     $d = New-Object System.Windows.Forms.FolderBrowserDialog
-    $d.Description = 'Choose where to download the Bakta light database (~1.5 GB download, ~3 GB extracted)'
+    $d.Description = "Choose where to download the Bakta $type database"
     if ($d.ShowDialog() -ne 'OK') { return }
     $dest = $d.SelectedPath
-    $msg = "Download the Bakta LIGHT database into:`n$dest`n`nThis is ~1.5 GB and runs in a console window. Continue?"
-    if ([System.Windows.Forms.MessageBox]::Show($msg,'Bakta','YesNo') -ne 'Yes') { return }
     # bakta_db downloads + extracts + runs amrfinder_update; show it in its own console.
-    Start-Process -FilePath $python -ArgumentList @('-m','bakta.db','download','--output',('"'+$dest+'"'),'--type','light')
-    [System.Windows.Forms.MessageBox]::Show("After it finishes, set the database folder to:`n$dest\db-light",'Bakta')
+    Start-Process -FilePath $python -ArgumentList @('-m','bakta.db','download','--output',('"'+$dest+'"'),'--type',$type)
+    [System.Windows.Forms.MessageBox]::Show("Downloading the $type database in a console window.`nWhen it finishes, set the database folder to:`n$dest\$folder",'Bakta')
 })
 
 function Read-NewLog {
