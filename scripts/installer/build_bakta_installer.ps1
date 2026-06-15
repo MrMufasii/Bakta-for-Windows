@@ -34,6 +34,85 @@ $ErrorActionPreference = 'Stop'
 function Info($m) { Write-Host "[installer] $m" -ForegroundColor Cyan }
 function Die($m)  { Write-Host "[installer] ERROR: $m" -ForegroundColor Red; exit 1 }
 
+# Python helper injected into bakta/utils.py (ends with the 'def test_dependencies():'
+# anchor so it is inserted immediately before that function).
+$BaktaResolveHelper = @'
+def resolve_amrfinderplus_db_path(amrfinderplus_db_path: Path) -> Path:
+    """Return a database directory that AMRFinderPlus can actually traverse.
+
+    On Windows the 'latest' entry created when the AMRFinderPlus database is downloaded
+    is frequently a non-traversable reparse point (accessing it raises WinError 1920).
+    AMRFinderPlus stages the database with an internal `robocopy`, which then retries the
+    unreadable source forever (default /R:1000000 /W:30) and hangs Bakta indefinitely.
+    When 'latest' is unusable, fall back to the newest real versioned database directory
+    (e.g. 2026-05-15.1), which native tools copy without issue.
+    """
+    latest_path = amrfinderplus_db_path.joinpath('latest')
+    try:
+        if latest_path.joinpath('AMRProt.fa.phr').is_file():
+            return latest_path
+    except OSError:
+        pass
+    versioned = []
+    try:
+        for entry in amrfinderplus_db_path.iterdir():
+            if entry.name == 'latest':
+                continue
+            try:
+                if entry.joinpath('AMRProt.fa.phr').is_file():
+                    versioned.append(entry)
+            except OSError:
+                continue
+    except OSError:
+        pass
+    if versioned:
+        return sorted(versioned, key=lambda path: path.name)[-1]
+    return latest_path  # nothing better found; let AMRFinderPlus report the error
+
+
+def test_dependencies():
+'@
+
+# Make the pip-installed Bakta tolerant of a broken Windows 'latest' symlink in the
+# AMRFinderPlus database (which otherwise hangs AMRFinderPlus' internal robocopy forever).
+# Self-asserting: dies loudly if the upstream anchors move, so a broken installer is never shipped.
+function Patch-BaktaAmrfinder([string]$pyDir, [string]$pyExe) {
+    Info "Patching Bakta for the Windows AMRFinderPlus 'latest' symlink hang ..."
+    $sp     = Join-Path $pyDir 'Lib\site-packages\bakta'
+    $utils  = Join-Path $sp 'utils.py'
+    $expert = Join-Path $sp 'expert\amrfinder.py'
+    foreach ($f in @($utils, $expert)) { if (-not (Test-Path $f)) { Die "patch: missing '$f'" } }
+    $latestLine = "amrfinderplus_db_latest_path = amrfinderplus_db_path.joinpath('latest')"
+
+    # --- utils.py: inject resolver, use it in the dependency check, and never block on stdin ---
+    $u = [System.IO.File]::ReadAllText($utils)
+    if ($u -notmatch 'resolve_amrfinderplus_db_path') {
+        if ($u -notmatch 'def test_dependencies\(\):')          { Die "patch: anchor 'def test_dependencies():' not in utils.py" }
+        if (-not $u.Contains($latestLine))                       { Die "patch: 'latest' line not in utils.py" }
+        if (-not $u.Contains("], capture_output=True)"))         { Die "patch: capture_output anchor not in utils.py" }
+        $u = $u.Replace("def test_dependencies():", $BaktaResolveHelper)
+        $u = $u.Replace($latestLine, "amrfinderplus_db_latest_path = resolve_amrfinderplus_db_path(amrfinderplus_db_path)")
+        $u = $u.Replace("], capture_output=True)", "], capture_output=True, stdin=sp.DEVNULL)")
+        [System.IO.File]::WriteAllText($utils, $u)
+    }
+    if ([System.IO.File]::ReadAllText($utils) -notmatch 'resolve_amrfinderplus_db_path\(amrfinderplus_db_path\)') { Die "patch: utils.py did not apply" }
+
+    # --- expert/amrfinder.py: import utils and resolve the DB dir the same way ---
+    $e = [System.IO.File]::ReadAllText($expert)
+    if ($e -notmatch 'bu\.resolve_amrfinderplus_db_path') {
+        if ($e -notmatch 'import bakta\.features\.orf as orf')   { Die "patch: import anchor not in expert/amrfinder.py" }
+        if (-not $e.Contains($latestLine))                       { Die "patch: 'latest' line not in expert/amrfinder.py" }
+        $e = $e.Replace("import bakta.features.orf as orf", "import bakta.features.orf as orf`r`nimport bakta.utils as bu")
+        $e = $e.Replace($latestLine, "amrfinderplus_db_latest_path = bu.resolve_amrfinderplus_db_path(amrfinderplus_db_path)")
+        [System.IO.File]::WriteAllText($expert, $e)
+    }
+    if ([System.IO.File]::ReadAllText($expert) -notmatch 'bu\.resolve_amrfinderplus_db_path') { Die "patch: expert/amrfinder.py did not apply" }
+
+    & $pyExe -m py_compile $utils $expert
+    if ($LASTEXITCODE -ne 0) { Die "patch: py_compile failed after patching" }
+    Info "AMRFinderPlus 'latest' patch applied + compiled OK."
+}
+
 $here = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path $MyInvocation.MyCommand.Path -Parent }
 if (-not $SrcRoot) { $SrcRoot = Split-Path (Split-Path $here -Parent) -Parent }
 if (-not $OutDir)  { $OutDir  = Join-Path $SrcRoot 'dist' }
@@ -107,6 +186,10 @@ $py = Join-Path $pyDir 'python.exe'
 if ($LASTEXITCODE -ne 0) { Die "get-pip failed" }
 & $py -m pip install --no-warn-script-location "bakta==$BaktaVersion"
 if ($LASTEXITCODE -ne 0) { Die "pip install bakta failed" }
+
+# Apply the native-Windows AMRFinderPlus fix to the freshly pip-installed Bakta.
+Patch-BaktaAmrfinder $pyDir $py
+
 # trim caches
 Get-ChildItem $pyDir -Recurse -Directory -Filter '__pycache__' | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
